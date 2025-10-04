@@ -1,28 +1,32 @@
 Instalar QEMU y Virt-Manager en Arch Linux:
+
 $ grep -Ec '(vmx|svm)' /proc/cpuinfo
 (el numero resultante es, el número de núcleos de tu procesador que tienen la capacidad de virtualizar)
+
 $ sudo pacman -S qemu-full virt-manager virt-viewer vde2 ebtables iptables-nft nftables dnsmasq bridge-utils ovmf swtpm libguestfs spice-vdagent
 $ sudo nano -l /etc/libvirt/libvirtd.conf
-Quitamos “#” en: unix_sock_group = "libvirt" y unix_sock_rw_perms = "0770"
-(Linea 85 y linea 102 aprox.)
+Quitamos “#” en: unix_sock_group = "libvirt" y unix_sock_rw_perms = "0770"    (Linea 85 y linea 102 aprox.)
 $ sudo usermod -a -G kvm,libvirt $(whoami)
 $ newgrp libvirt
 $ sudo systemctl enable libvirtd.service
 $ sudo systemctl start libvirtd.service
-S sudo systemctl status libvirtd.service     (comprobar: active running)
+S sudo systemctl status libvirtd.service    (comprobar: active running)
 $ sudo nano -l /etc/libvirt/qemu.conf
-Quitamos “#” y añadir tu nombre de usuario y de grupo: (Linea 557 y linea 562 aprox.)
+Quitamos “#” y añadir tu nombre de usuario y de grupo:    (Linea 557 y linea 562 aprox.)
 user = "your username"     (en mi caso ruben)
 group = "your username"    (en mi caso ruben o bien libvirt)
-$ sudo systemctl restart libvirtd         (reiniciamos el servicio para que tome los cambios)
-$ sudo virsh net-autostart default        (hacemos que se conecte a internet al iniciar)
+$ sudo systemctl restart libvirtd     (reiniciamos el servicio para que tome los cambios)
+$ sudo virsh net-autostart default    (hacemos que se conecte a internet al iniciar)
 $ sudo reboot
+
 Habilitar la virtualización anidada: (opcional)
 Permite ejecutar máquinas virtuales dentro de una VM. 
 Habilita la virtualización anidada kvm_intel / kvm_amd habilitando el módulo del kernel como se muestra.
+
 $ sudo modprobe -r kvm_intel
 $ sudo modprobe kvm_intel nested=1
 $ echo "options kvm_intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
+
 Verificar Virtualización anidaderificar Virtualización anidada: (opcional)
 $ systool -m kvm_intel -v | grep nested
 $ cat /sys/module/kvm_intel/parameters/nested
