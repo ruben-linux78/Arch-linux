@@ -34,7 +34,8 @@ $ yay - -version
 $ yay -S google-chrome
 $ yay -S visual-studio-code-bin
 --Instalar interfaz grafica para Pacman:
-$ yay -S octopi                                                (libpamac-full pamac-all)
+$ yay -S octopi                                                (interfaz grafica de octopi)
+$ yay -S libpamac-full pamac-all                               (interfaz grafica de pamac)
 --Instalar flatpak:
 $ sudo pacman -S flatpak
 $ flatpack remote-add - -if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -49,6 +50,16 @@ $ journal -u fstrim.service
 $ sudo pacman -S reflector rsync
 # reflector --download-timeout 10 --country Spain,France --age 12 --protocol https --latest 10 --sort rate --fastest 6 --save /etc/pacman.d/mirrorlist
 $ reflector - -latest 10 - -sort rate - -fastest 6 - -save /etc/pacman.d/mirrorlist
+--Instalar Codecs y Plugins:
+$ sudo pacman -S exfat-utils fuse-exfat a52dec faac faad2 flac jasper lame libdca libdv gst-libav libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore flashplugin libdvdcss libdvdread libdvdnav gmtk dvd+rw-tools dvdauthor dvgrab pepper-flash
+--Instalar Compresores:
+$ sudo pacman -S p7zip zip unzip unrar tar
+--Instalar Bluetooth:
+$ sudo pacman -S bluez bluez-utils blueman   
+$ sudo systemctl enable bluetooth.service
+$ sudo systemctl start bluetooth.service   
+$ sudo vim /etc/bluetooth/main.conf                            (En [Policy] section, añadir linea: AutoEnable=true)
+$ sudo pacman -S pulseaudio-bluetooth   
 --Instalar Plymouth:
 $ sudo pacman -S plymouth
 $ sudo nano /etc/mkinitcpio.conf
