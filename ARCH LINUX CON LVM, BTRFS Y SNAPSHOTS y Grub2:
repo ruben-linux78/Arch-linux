@@ -111,7 +111,4 @@ Timeshift
 $ sudo systemctl edit --full grub-btrfsd
 ExecStart=/urs/bin/grub-btrfsd --syslog --timeshift-auto
 $ sudo systemctl enable grub-btrfsd                    
-Snapper
-# pacman -S snapper grub-btrfs snap-pac snap-pac-grub btrfs-assistant
-# snapper -c root créate-config /           (creara subvolumen ,snapshots)
-# snapper -c config create -d ‘base install’
+$ sudo reboot
