@@ -30,10 +30,8 @@ Creamos subvolumenes btrfs
 # btrfs subvolume set-default               (pegamos ID) /   
 # umount /mnt                               (desmontamos la partición) 
 Creamos puntos de montaje y montamos nuestras particiones y subvolumenes
-# mount /dev/vg0/arch -o subvol=@ /mnt     
-(mount /dev/vg0/arch -o compress=zstd,noatime,space_cache=v2,subvol=@ /mnt)
-# mkdir -p /mnt/{boot,home,var/log,.snapshots}    
-(/mnt/boot /mnt/home /mnt/var/log /mnt/.snapshots)
+# mount /dev/vg0/arch -o subvol=@ /mnt      (Podemos pasarle argumentos a btrfs: mount /dev/vg0/arch -o compress=zstd,noatime,space_cache=v2,subvol=@ /mnt)
+# mkdir -p /mnt/{boot,home,var/log,.snapshots}    (otra forma: /mnt/boot /mnt/home /mnt/var/log /mnt/.snapshots)
 # mount /dev/vg0/arch -o subvol=@home /mnt/home
 # mount /dev/vg0/arch -o subvol=@var_log /mnt/var/log
 # mount /dev/vg0/arch -o subvol=@snapshots /mnt/.snapshots
@@ -59,18 +57,18 @@ Establecer nombre del host
 Configurar nuestra red local (rango)
 # nano /etc/hosts
 127.0.0.1    localhost
-::1                 localhost
-127.0.1.1     archlinux.localdomain   archlinux
+::1          localhost
+127.0.1.1    archlinux.localdomain   archlinux
 Configuración del initramfs
 # nano /etc/mkinitcpio.conf
 HOOKS=(base udev autodetect modconf block encrypt lvm2 filesystems keyboard fsck)   
 # mkinitcpio -P
 Password, networkmanager, user
-# systemctl enable NetworkManager.service   (activar el internet) 
+# systemctl enable NetworkManager.service   (habilitar networkmanager) 
 # passwd                                    (establecer contraseña del root) 
 # useradd -m -G wheel ruben
 # passwd ruben
-# EDITOR=nano visudo                        (nano -l /etc/sudoers) (%wheel ALL=(ALL) ALL)
+# EDITOR=nano visudo                        (otra opcion: nano -l /etc/sudoers) (%wheel ALL=(ALL) ALL)
 # pacman -S amd-ucode                       (si el procesador es amd o intel-ucode) 
 Instalación del cargador de arranque grub2
 # pacman -S grub grub-btrfs efibootmgr os-prober mtools dosfstools e2fsprogs lvm2 inotify-tools timeshift 
