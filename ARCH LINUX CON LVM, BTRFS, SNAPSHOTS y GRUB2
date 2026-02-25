@@ -31,13 +31,13 @@ Creamos subvolumenes btrfs
 # umount /mnt                               (desmontamos la partición) 
 Creamos puntos de montaje y montamos nuestras particiones y subvolumenes
 # mount /dev/vg0/arch -o subvol=@ /mnt      (Podemos pasarle argumentos a btrfs: mount /dev/vg0/arch -o compress=zstd,noatime,space_cache=v2,subvol=@ /mnt)
-# mkdir -p /mnt/{boot,home,var/log,.snapshots}    (otra forma: /mnt/boot /mnt/home /mnt/var/log /mnt/.snapshots)
+# mkdir -p /mnt/{boot/efi,home,var/log,.snapshots}    (otra forma: /mnt/boot/efi /mnt/home /mnt/var/log /mnt/.snapshots)
 # mount /dev/vg0/arch -o subvol=@home /mnt/home
 # mount /dev/vg0/arch -o subvol=@var_log /mnt/var/log
 # mount /dev/vg0/arch -o subvol=@snapshots /mnt/.snapshots
-# mount -t vfat /dev/vda1 /mnt/boot
+# mount -t vfat /dev/vda1 /mnt/boot/efi
 Instalacion del Sistema
-# pacstrap /mnt base base-devel linux linux-firmware linux-headers btrfs-progs lvm2 efibootmgr networkmanager network-manager-applet amd-ucode  nano vim 
+# pacstrap /mnt base base-devel linux linux-firmware linux-headers btrfs-progs lvm2 efibootmgr networkmanager network-manager-applet nano vim 
 Generar archivo fstab
 # genfstab -U /mnt >> /mnt/etc/fstab
 # cat /mnt/etc/fstab                        (rw,relatime,compress=zstd,ssd,space_cache=v2,subvolid=256,subvol=/@,subvol=@) LABEL=ROOT
@@ -50,7 +50,6 @@ Generar locales
 # echo LANG=es_ES.UTF-8 > /etc/locale.conf
 # export LANG=es_ES.UTF-8
 # locale-gen
-# hwclock –systohc            (-w)
 # echo KEYMAP=es > /etc/vconsole.conf       (configura el teclado en español)
 Establecer nombre del host
 # echo “archlinux” > /etc/hostname
