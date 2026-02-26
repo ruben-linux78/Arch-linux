@@ -32,3 +32,4 @@ $ systool -m kvm_intel -v | grep nested
 $ cat /sys/module/kvm_intel/parameters/nested
 
 Nota: para procesadores AMD sustituir kvm_intel por: kvm_amd en los comandos.a: (opcional)
+
