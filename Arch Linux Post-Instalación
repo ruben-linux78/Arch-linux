@@ -90,3 +90,4 @@ alias ll='lsd -l'
 alias la='lsd -a'
 alias lla='lsd -la'
 alias cat='bat'
+
