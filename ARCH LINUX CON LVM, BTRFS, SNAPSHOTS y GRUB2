@@ -37,7 +37,7 @@ Creamos puntos de montaje y montamos nuestras particiones y subvolumenes
 # mount /dev/vg0/arch -o subvol=@snapshots /mnt/.snapshots
 # mount -t vfat /dev/vda1 /mnt/boot/efi
 Instalacion del Sistema
-# pacstrap /mnt base base-devel linux linux-firmware linux-headers btrfs-progs lvm2 efibootmgr networkmanager network-manager-applet nano vim 
+# pacstrap /mnt base base-devel linux linux-firmware linux-headers btrfs-progs lvm2 cryptsetup efibootmgr networkmanager network-manager-applet dhcpcd iwd acpid avahi rsync bash-completion nano vim 
 Generar archivo fstab
 # genfstab -U /mnt >> /mnt/etc/fstab
 # cat /mnt/etc/fstab                        (rw,relatime,compress=zstd,ssd,space_cache=v2,subvolid=256,subvol=/@,subvol=@) LABEL=ROOT
@@ -59,8 +59,8 @@ Configurar nuestra red local (rango)
 ::1          localhost
 127.0.1.1    archlinux.localdomain   archlinux
 Configuración del initramfs
-# nano /etc/mkinitcpio.conf
-HOOKS=(base udev autodetect modconf block encrypt lvm2 filesystems keyboard fsck)   
+# nano /etc/mkinitcpio.conf                 (MODULES=(btrfs) BINARIES=(/usr/bin/btrfs)
+HOOKS=(base udev autodetect microcode modconf block encrypt lvm2 kms consolefont filesystems keyboard keymap fsck) 
 # mkinitcpio -P
 Password, networkmanager, user
 # systemctl enable NetworkManager.service   (habilitar networkmanager) 
@@ -71,13 +71,14 @@ Password, networkmanager, user
 # pacman -S amd-ucode                       (si el procesador es amd o intel-ucode) 
 Instalación del cargador de arranque grub2
 # pacman -S grub grub-btrfs efibootmgr os-prober mtools dosfstools e2fsprogs lvm2 inotify-tools timeshift 
+# nano /etc/default/grub                    (GRUB_ENABLE_CRYPTODISK=yes y descomentar: #GRUB_DISABLE_OS_PROBER=false) 
 # grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch -- removable 
-# nano /etc/default/grub                    (descomentar: #GRUB_DISABLE_OS_PROBER=false)  
 # grub-mkconfig -o /boot/grub/grub.cfg 
 Salir del chroot y reiniciar
 # exit
 # umount -R /mnt
 # swapoff -a
+# cryptsetup close
 # reboot
 # btrfs subvolume snapshot -r / /.snapshots/root-$(date +%Y%m%d) (creamos una instantanea del sistema base)
 # nano /etc/pacman.conf        
