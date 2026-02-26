@@ -1,6 +1,6 @@
 # Instalación de Arch Linux en btrfs con Archinstall
 
-# 1. Iniciar ISO con ISO Live de Arch Linux
+# 1. Iniciar con ISO Live de Arch Linux
 
 Inicia desde un USB booteable con la ISO de Arch Linux.
 
